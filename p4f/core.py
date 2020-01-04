@@ -87,9 +87,8 @@ def Log(name, addr = None):
     else:
         log.indo(name)
 
-def debug(p,b):
-    gdb.attach(p,b)
-
+def debug(p,b=None):
+    gdb.attach(p.p,b)
 
 
 if __name__ == '__main__':

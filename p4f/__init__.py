@@ -1,2 +1,2 @@
-def start():
-    print("import successful")
+from pwn import *
+from p4f import *
