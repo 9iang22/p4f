@@ -87,6 +87,11 @@ def Log(name, addr = None):
     else:
         log.indo(name)
 
+def debug(p,b):
+    gdb.attach(p,b)
+
+
+
 if __name__ == '__main__':
     pwn = Pwn("./pwn")
     context.log_level = 'debug'

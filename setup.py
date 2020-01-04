@@ -2,7 +2,7 @@
 from setuptools import setup
 import setuptools
 setup(name='p4f',
-      version='0.0.3',
+      version='0.0.4',
       description='pwntools helper',
       url='http://github.com',
       author='Msk',
