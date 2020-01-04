@@ -8,7 +8,7 @@ python setup.py check
 python setup.py sdist
 twine upload dist/*
 
-sleep 10
-
 pip uninstall p4f
+
+sleep 10
 pip install p4f --user

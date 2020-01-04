@@ -9,14 +9,14 @@ class Pwn:
     def remote_run(self):
         self.p = remote(ip, port)
 
-    def __init__(self, binary=None, libc = None, ip=None, port=None, remote=False):
+    def __init__(self, binary=None, libc = None, ip=None, port=None, REMOTE=False):
 
         self.binary = None
         self.elf = None
         self.p = None
         self.libc = None
 
-        self.remote = False
+        self.REMOTE = False
 
         self.libcbase = 0
         self.stackbase = 0
@@ -32,10 +32,10 @@ class Pwn:
         if libc:
             self.libc = ELF(libc)
 
-        if ip and port and remote:
+        if REMOTE and ip and port:
             self.ip = ip
             self.port = port
-            self.p = remote(ip.port)
+            self.p = remote(ip,port)
 
         elif binary:
             self.p = process(self.binary)
@@ -88,7 +88,8 @@ def Log(name, addr = None):
         log.indo(name)
 
 def debug(p,b=None):
-    gdb.attach(p.p,b)
+    if not p.remote:
+        gdb.attach(p.p,b)
 
 
 if __name__ == '__main__':
