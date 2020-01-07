@@ -3,12 +3,6 @@ from LibcSearcher import *
 
 
 class Pwn:
-    def local_run(self):
-        self.p = process(self.binary)
-
-    def remote_run(self):
-        self.p = remote(ip, port)
-
     def __init__(self, binary=None, libc = None, ip=None, port=None, REMOTE=False):
 
         self.binary = None
@@ -16,7 +10,7 @@ class Pwn:
         self.p = None
         self.libc = None
 
-        self.REMOTE = False
+        self.REMOTE = REMOTE
 
         self.libcbase = 0
         self.stackbase = 0
@@ -81,6 +75,21 @@ class Pwn:
         return l
 
 
+
+def fmt64(offset,addr,val):
+    Log("not implentment")
+    return None
+
+def fmt(offset,addr,val,bits=None):
+    if not bits:
+        Log("please set bits as the 4th args")
+        return None
+    if bits == 32:
+        return fmtstr_payload(offset,{addr:val})
+    if bits == 64:
+        return fmt64(offset,addr,val)
+
+#log and debug
 def Log(name, addr = None):
     if addr:
         log.info(name + ' ' + hex(addr))
@@ -88,12 +97,50 @@ def Log(name, addr = None):
         log.indo(name)
 
 def debug(p,b=None):
-    if not p.remote:
+    if p.REMOTE:
+        pass
+    else:
         gdb.attach(p.p,b)
 
+#heap exp
+def heap_exp():
+    print(
+    """
+    def menu(idx):
+        p.ru('Command: ')
+        p.sl(str(idx))
+
+    def add(size):
+        menu(1)
+        p.ru("Size: ")
+        p.sl(str(size))
+
+    def edit(idx,size, content):
+        menu(2)
+        p.ru("Index: ")
+        p.sl(str(idx))
+        p.ru("Size: ")
+        p.sl(str(size))
+        p.ru('Content: ')
+        p.s(content)
+
+    def delete(idx):
+        menu(3)
+        p.ru('Index: ')
+        p.sl(str(idx))
+
+    def show(idx):
+        menu(4)
+        p.ru("Index: ")
+        p.sl(str(idx))
+    """
+    )
 
 if __name__ == '__main__':
-    pwn = Pwn("./pwn")
+    pwn = Pwn("/home/msk/Desktop/work/guangwai/pwn01/pwn1")
     context.log_level = 'debug'
+    print fmt(5,0xdeadbeef,0x12345678,32)
+    debug(pwn)
+    pwn.ia()
 
         
